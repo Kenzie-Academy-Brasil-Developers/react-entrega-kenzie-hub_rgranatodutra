@@ -52,10 +52,26 @@ export const Button = styled.button`
     display: flex;
     justify-content: center;
     align-items: center;
-
+    
     // Size settings
     ${props => sizes[props.size]}
-
+    
     // Theme settings
     ${props => themes[props.theme]}
-`;
+    `;
+
+export const ButtonCSS = styled.span`
+    // Global button Settings
+    box-sizing: border-box;
+    border: none;
+    border-radius: 0.25rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+    // Size settings
+    ${props => sizes[props.size]}
+    
+    // Theme settings
+    ${props => themes[props.theme]}
+`

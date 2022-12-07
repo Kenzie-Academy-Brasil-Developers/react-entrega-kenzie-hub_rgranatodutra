@@ -1,12 +1,14 @@
 import { StyledPage } from "./style";
 import logo from '../../../logo.svg';
 import { FormField } from "../../FormField";
-import { Button } from "../../../styles/Button";
+import { Button, ButtonCSS } from "../../../styles/Button";
 import { Form } from "../../../styles/Form";
 import { useForm } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { formSchema } from "./loginSchema";
+import axios from "axios";
+import { toast } from 'react-toastify';
 
 export const LoginPage = () => {
     const navigate = useNavigate();
@@ -19,8 +21,24 @@ export const LoginPage = () => {
     });
 
     const onSubmit = (data) => {
-        console.log(data)
-    }
+        const requisition = axios.post('https://kenziehub.herokuapp.com/sessions', data)
+            .then((resp) => {
+                localStorage.setItem('@rgranatodutra/KenzieHub:userID', JSON.stringify(resp.data.user.id));
+                localStorage.setItem('@rgranatodutra/KenzieHub:authToken', JSON.stringify(resp.data.token));
+                setTimeout(() => {
+                    navigate('/app');
+                }, 2000);
+            });
+
+        toast.promise(
+            requisition,
+            {
+                pending: 'Validando dados...',
+                sucess: 'Login bem sucedido!',
+                error: 'Falha ao logar.'
+            }
+        );
+    };
 
     return (
         <StyledPage>
@@ -55,21 +73,17 @@ export const LoginPage = () => {
 
                 <div>
                     <span> Ainda não possui uma conta? </span>
-                    <Button
-                        theme="grey1"
-                        size="default"
-                        type="button"
-                        onClick={() => navigate('/register')}
-                    >
-                        Cadastre-se
-                    </Button>
+                    <Link to="/register" style={{ textDecoration: 'none' }}>
+                        <ButtonCSS
+                            theme="grey1"
+                            size="default"
+                        >
+                            Cadastre-se
+                        </ButtonCSS>
+                    </Link>
                 </div>
 
             </Form>
         </StyledPage>
-    )
-}
-
-/* 
-FormField = ({ name, placeholder, label, inputType, inputFunction })
-*/
+    );
+};
