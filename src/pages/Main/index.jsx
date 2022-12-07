@@ -1,5 +1,5 @@
-import { Header } from "../../Header";
-import { Navbar } from "../../Navbar";
+import { Header } from "../../components/Header"
+import { Navbar } from "../../components/Navbar";
 import { StyledPage } from "./style";
 import axios from "axios";
 import { useEffect, useState } from "react";

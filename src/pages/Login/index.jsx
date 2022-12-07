@@ -1,14 +1,14 @@
 import { StyledPage } from "./style";
-import logo from '../../../logo.svg';
-import { FormField } from "../../FormField";
-import { Button, ButtonCSS } from "../../../styles/Button";
-import { Form } from "../../../styles/Form";
+import logo from '../../logo.svg';
+import { FormField } from "../../components/FormField";
+import { Button, ButtonCSS } from "../../styles/Button";
+import { Form } from "../../styles/Form";
 import { useForm } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Link, useNavigate } from "react-router-dom";
 import { formSchema } from "./loginSchema";
-import axios from "axios";
 import { toast } from 'react-toastify';
+import { api } from "../../scripts/api";
 
 export const LoginPage = () => {
     const navigate = useNavigate();
@@ -21,23 +21,20 @@ export const LoginPage = () => {
     });
 
     const onSubmit = (data) => {
-        const requisition = axios.post('https://kenziehub.herokuapp.com/sessions', data)
+        api.post('sessions', data)
             .then((resp) => {
                 localStorage.setItem('@rgranatodutra/KenzieHub:userID', JSON.stringify(resp.data.user.id));
                 localStorage.setItem('@rgranatodutra/KenzieHub:authToken', JSON.stringify(resp.data.token));
-                setTimeout(() => {
-                    navigate('/app');
-                }, 2000);
+            })
+            .then(() => {
+                toast.success('Login bem sucedido');
+                navigate('/app');
+
+            })
+            .catch(() => {
+                toast.error('Falha ao logar.');
             });
 
-        toast.promise(
-            requisition,
-            {
-                pending: 'Validando dados...',
-                sucess: 'Login bem sucedido!',
-                error: 'Falha ao logar.'
-            }
-        );
     };
 
     return (
