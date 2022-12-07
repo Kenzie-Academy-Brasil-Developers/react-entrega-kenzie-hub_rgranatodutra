@@ -21,23 +21,20 @@ export const LoginPage = () => {
     });
 
     const onSubmit = (data) => {
-        const requisition = api.post('sessions', data)
+        api.post('sessions', data)
             .then((resp) => {
                 localStorage.setItem('@rgranatodutra/KenzieHub:userID', JSON.stringify(resp.data.user.id));
                 localStorage.setItem('@rgranatodutra/KenzieHub:authToken', JSON.stringify(resp.data.token));
-                setTimeout(() => {
-                    navigate('/app');
-                }, 2000);
+            })
+            .then(() => {
+                toast.success('Login bem sucedido');
+                navigate('/app');
+
+            })
+            .catch(() => {
+                toast.error('Falha ao logar.');
             });
 
-        toast.promise(
-            requisition,
-            {
-                pending: 'Validando dados...',
-                sucess: 'Login bem sucedido!',
-                error: 'Falha ao logar.'
-            }
-        );
     };
 
     return (

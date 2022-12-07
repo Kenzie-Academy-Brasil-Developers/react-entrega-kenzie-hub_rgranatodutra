@@ -9,12 +9,13 @@ export const App = () => {
       <GlobalStyles theme="dark" />
       <AppRoutes />
       <ToastContainer
-        autoClose={5000}
+        autoClose={2500}
         newestOnTop={true}
         closeOnClick
         theme="light"
         pauseOnFocusLoss={false}
       />
+
     </div>
   );
 };
