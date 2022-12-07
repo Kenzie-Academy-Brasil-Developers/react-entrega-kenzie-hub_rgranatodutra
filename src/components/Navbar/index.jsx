@@ -1,6 +1,7 @@
 import { StyledNavbar } from "./style";
 import logo from '../../logo.svg'
 import { Button } from "../../styles/Button";
+import { logout } from "../../scripts/logout";
 
 export const Navbar = () => {
     return (
@@ -10,6 +11,7 @@ export const Navbar = () => {
                 <Button
                     size="small"
                     theme="grey2"
+                    onClick={logout}
                 >
                     Sair
                 </Button>
