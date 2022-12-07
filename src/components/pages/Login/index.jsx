@@ -43,7 +43,7 @@ export const LoginPage = () => {
     return (
         <StyledPage>
             <img src={logo} alt="Kenzie Hub logo" />
-            <Form onSubmit={handleSubmit(onSubmit)}>
+            <Form onSubmit={handleSubmit(onSubmit)} noValidate>
                 <h2> Login </h2>
 
                 <FormField

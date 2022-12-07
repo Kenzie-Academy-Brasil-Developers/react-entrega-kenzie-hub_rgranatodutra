@@ -48,7 +48,7 @@ export const RegisterPage = () => {
                     </ButtonCSS>
                 </Link>
             </div>
-            <Form onSubmit={handleSubmit(onSubmit)}>
+            <Form onSubmit={handleSubmit(onSubmit)} noValidate>
                 <h2> Crie sua conta </h2>
                 <span> Rápido e grátis, vamos nessa</span>
 
