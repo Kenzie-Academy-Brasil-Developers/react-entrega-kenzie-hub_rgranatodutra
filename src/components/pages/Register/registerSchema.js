@@ -16,5 +16,5 @@ export const formSchema = yup.object().shape({
         .oneOf([yup.ref('password')], 'A senha não bate!'),
     bio: yup.string().required("Bio obrigatória"),
     contact: yup.string().required('Informe um meio de contato'),
-    module: yup.string().required('Informe seu módulo')
+    course_module: yup.string().required('Informe seu módulo')
 });
