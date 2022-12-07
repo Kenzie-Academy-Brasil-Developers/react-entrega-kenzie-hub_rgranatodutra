@@ -1,8 +1,8 @@
 import { StyledPage } from "./style";
-import logo from '../../../logo.svg';
-import { FormField } from "../../FormField";
-import { Button, ButtonCSS } from "../../../styles/Button";
-import { Form } from "../../../styles/Form";
+import logo from '../../logo.svg';
+import { FormField } from "../../components/FormField";
+import { Button, ButtonCSS } from "../../styles/Button";
+import { Form } from "../../styles/Form";
 import { useForm } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
 import { formSchema } from "./registerSchema";

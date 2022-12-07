@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { typography } from "../../../styles/typography";
+import { typography } from "../../styles/typography";
 
 export const StyledPage = styled.main`
     background-color: var(--color-grey_5);
