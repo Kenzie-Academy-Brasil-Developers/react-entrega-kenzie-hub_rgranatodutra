@@ -1,12 +1,14 @@
 import { StyledPage } from "./style";
 import logo from '../../../logo.svg';
 import { FormField } from "../../FormField";
-import { Button } from "../../../styles/Button";
+import { Button, ButtonCSS } from "../../../styles/Button";
 import { Form } from "../../../styles/Form";
 import { useForm } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
 import { formSchema } from "./registerSchema";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
+import axios from "axios";
+import { toast } from 'react-toastify';
 
 export const RegisterPage = () => {
     const navigate = useNavigate();
@@ -19,20 +21,32 @@ export const RegisterPage = () => {
     });
 
     const onSubmit = (data) => {
-        console.log(data)
+        delete data.cpassword;
+        const requisition = axios.post('https://kenziehub.herokuapp.com/users', data)
+            .then(() => navigate('/login'));
+        toast.promise(
+            requisition,
+            {
+                pending: 'Validando dados...',
+                sucess: 'Conta criada com sucesso!',
+                error: 'Falha ao criar conta.'
+            }
+        )
+
     }
 
     return (
         <StyledPage>
             <div>
                 <img src={logo} alt="Kenzie Hub logo" />
-                <Button
-                    size="small"
-                    theme="grey2"
-                    onClick={() => navigate(-1)}
-                >
-                    Voltar
-                </Button>
+                <Link to={-1} style={{ textDecoration: 'none' }}>
+                    <ButtonCSS
+                        theme="grey2"
+                        size="small"
+                    >
+                        Voltar
+                    </ButtonCSS>
+                </Link>
             </div>
             <Form onSubmit={handleSubmit(onSubmit)}>
                 <h2> Crie sua conta </h2>
@@ -114,7 +128,7 @@ export const RegisterPage = () => {
                             { value: 6, text: 'Sexto Módulo' },
                         ]
                     }
-                    inputFunction={register('module')}
+                    inputFunction={register('course_module')}
                     errors={errors.module?.message ? <span aria-label="erro">{errors.module.message}</span> : false}
                 />
 
@@ -129,7 +143,3 @@ export const RegisterPage = () => {
         </StyledPage>
     )
 }
-
-/* 
-FormField = ({ name, placeholder, label, inputType, inputFunction })
-*/
