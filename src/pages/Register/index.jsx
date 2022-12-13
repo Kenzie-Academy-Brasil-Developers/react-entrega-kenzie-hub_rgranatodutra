@@ -6,34 +6,22 @@ import { Form } from "../../styles/Form";
 import { useForm } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
 import { formSchema } from "./registerSchema";
-import { useNavigate, Link } from "react-router-dom";
-import axios from "axios";
-import { toast } from 'react-toastify';
+import { Link } from "react-router-dom";
+import { useContext } from "react";
+import { UserContext } from "../../contexts/UserContext";
 
 export const RegisterPage = () => {
-    const navigate = useNavigate();
+    const { registerAccount } = useContext(UserContext);
 
-    const { register,
+    const {
+        register,
         handleSubmit,
         formState: { errors }
     } = useForm({
         resolver: yupResolver(formSchema),
     });
 
-    const onSubmit = (data) => {
-        delete data.cpassword;
-        const requisition = axios.post('https://kenziehub.herokuapp.com/users', data)
-            .then(() => navigate('/login'));
-        toast.promise(
-            requisition,
-            {
-                pending: 'Validando dados...',
-                sucess: 'Conta criada com sucesso!',
-                error: 'Falha ao criar conta.'
-            }
-        )
-
-    }
+    const onSubmit = (data) => registerAccount(data);
 
     return (
         <StyledPage>

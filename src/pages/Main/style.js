@@ -18,17 +18,31 @@ export const StyledPage = styled.main`
         max-width: 46.875rem;
         display: flex;
         flex-direction: column;
-        padding: 2.25rem 0.875rem 0 0.875rem;
+        padding: 2.25rem 0;
         gap: 1.5rem;
 
-        &>h2 {
-            ${typography.title1};
-            color: var(--color-grey_1);
+        &>div {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            &>h2 {
+                ${typography.title2};
+                color: var(--color-grey_1);
+            }
         }
 
-        &>span {
-            ${typography.bigline};
-            color: var(--color-grey_1);
+        &>ul {
+            padding: 1.375rem;
+            background-color: var(--color-grey_4);
+            border-radius: 0.25rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        @media (max-width: 780px) {
+            padding: 2.25rem 0.875rem;
         }
     }
     

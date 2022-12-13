@@ -1,21 +1,22 @@
 import { Header } from "../../components/Header"
 import { Navbar } from "../../components/Navbar";
 import { StyledPage } from "./style";
-import axios from "axios";
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Button } from "../../styles/Button";
+import { useContext, useState } from "react";
+import { UserContext } from "../../contexts/UserContext";
+import { TechCard } from "../../components/TechCard";
+import { NewTechModal } from "../../components/NewTechModal";
 
 export const MainPage = () => {
-    const navigate = useNavigate();
-    const userID = JSON.parse(localStorage.getItem('@rgranatodutra/KenzieHub:userID'));
 
-    const [user, setUser] = useState({});
+    const { user } = useContext(UserContext);
+    const [isModalOpen, setModalOpenStatus] = useState(false);
+    const [currentModal, setCurrentModal] = useState(<></>);
 
-    useEffect(() => {
-        axios.get(`https://kenziehub.herokuapp.com/users/${userID}`)
-            .then((resp) => setUser(resp.data))
-            .catch(() => navigate('/login'));
-    }, [navigate, userID]);
+    function openNewTechModal() {
+        setCurrentModal(<NewTechModal setStatus={setModalOpenStatus} />);
+        setModalOpenStatus(true)
+    }
 
     return (
         <StyledPage>
@@ -27,11 +28,31 @@ export const MainPage = () => {
                 }}
             />
             <div>
-                <h2> {"Que pena! Estamos em desenvolvimento :("} </h2>
-                <span>
-                    Nossa aplicação está em desenvolvimento, em breve traremos novidades
-                </span>
+                <div>
+                    <h2>
+                        Tecnologias
+                    </h2>
+                    <Button theme="grey2" size="icon" onClick={openNewTechModal}> + </Button>
+                </div>
+                {
+                    user.techs?.length > 0 &&
+                    <ul>
+                        {
+                            user.techs?.map(tech => (
+                                <TechCard
+                                    key={tech.id}
+                                    techId={tech.id}
+                                    name={tech.title}
+                                    level={tech.status}
+                                    setModal={setCurrentModal}
+                                    setStatus={setModalOpenStatus}
+                                />
+                            ))
+                        }
+                    </ul>
+                }
             </div>
+            {isModalOpen && currentModal}
         </StyledPage>
     );
 };

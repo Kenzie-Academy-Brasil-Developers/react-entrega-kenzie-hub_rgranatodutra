@@ -5,13 +5,13 @@ import { Button, ButtonCSS } from "../../styles/Button";
 import { Form } from "../../styles/Form";
 import { useForm } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { formSchema } from "./loginSchema";
-import { toast } from 'react-toastify';
-import { api } from "../../scripts/api";
+import { useContext } from "react";
+import { UserContext } from "../../contexts/UserContext";
 
 export const LoginPage = () => {
-    const navigate = useNavigate();
+    const { login } = useContext(UserContext);
 
     const { register,
         handleSubmit,
@@ -20,22 +20,7 @@ export const LoginPage = () => {
         resolver: yupResolver(formSchema),
     });
 
-    const onSubmit = (data) => {
-        api.post('sessions', data)
-            .then((resp) => {
-                localStorage.setItem('@rgranatodutra/KenzieHub:userID', JSON.stringify(resp.data.user.id));
-                localStorage.setItem('@rgranatodutra/KenzieHub:authToken', JSON.stringify(resp.data.token));
-            })
-            .then(() => {
-                toast.success('Login bem sucedido');
-                navigate('/app');
-
-            })
-            .catch(() => {
-                toast.error('Falha ao logar.');
-            });
-
-    };
+    const onSubmit = (data) => login(data);
 
     return (
         <StyledPage>
