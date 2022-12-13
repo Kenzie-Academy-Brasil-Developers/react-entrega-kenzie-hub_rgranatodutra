@@ -8,7 +8,7 @@ export const typography = {
     `,
     title2: css`
         font-size: 1rem;
-        font-weight: 500;
+        font-weight: 600;
         line-height: 1.625rem;
     `,
     title3: css`
@@ -42,5 +42,8 @@ export const typography = {
         font-size:   0.625rem;
         font-weight: 600;
         line-height: 1.25rem;
+    `,
+    nunito: css`
+        font-family: 'Nunito', sans-serif;
     `,
 };

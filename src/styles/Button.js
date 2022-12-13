@@ -13,7 +13,16 @@ const sizes = {
     icon: css`
         ${typography.headlineB};
         width: 2rem;
+        height: 2rem;
         padding: 0;
+    `,
+    content: css`
+        width: max-content;
+        height: max-content;
+        transform: scale(1.5);
+        &:hover {
+            transform: scale(1.6);
+        }
     `
 }
 
@@ -42,6 +51,9 @@ const themes = {
             background-color: var(--color-grey_2);
         }
     `,
+    transparent: css`
+        background-color: transparent;
+    `
 }
 
 export const Button = styled.button`
