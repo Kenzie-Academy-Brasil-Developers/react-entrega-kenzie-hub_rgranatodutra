@@ -9,14 +9,6 @@ const themes = {
         --color-grey_2: #868E86;
         --color-grey_1: #f8f9fa;
     `,
-    light: css`
-        // Grey Scale Palette
-        --color-grey_1: #121214;
-        --color-grey_2: #212529;
-        --color-grey_3: #343841;
-        --color-grey_4: #868E86;
-        --color-grey_5: #f8f9fa;
-    `,
 };
 
 export const GlobalStyles = createGlobalStyle`s
