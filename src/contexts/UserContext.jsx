@@ -35,6 +35,17 @@ export const UserProvider = ({ children }) => {
             });
     };
 
+    function verifyLoggedIn(token) {
+        api.get('profile', {
+            Authorization: `Bearer ${token}`
+        })
+            .catch(() => {
+                localStorage.removeItem('@rgranatodutra/KenzieHub:userID');
+                localStorage.removeItem('@rgranatodutra/KenzieHub:authToken');
+                navigate('/login');
+            });
+    };
+
     useEffect(() => {
         const token = JSON.parse(localStorage.getItem('@rgranatodutra/KenzieHub:authToken'));
         if (token) {
@@ -55,7 +66,7 @@ export const UserProvider = ({ children }) => {
 
 
     return (
-        <UserContext.Provider value={{ login, registerAccount, user }}>
+        <UserContext.Provider value={{ login, registerAccount, user, navigate, verifyLoggedIn }}>
             {children}
         </UserContext.Provider>
     );

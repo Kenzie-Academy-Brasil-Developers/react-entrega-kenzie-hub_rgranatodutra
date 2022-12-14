@@ -2,7 +2,7 @@ import { Header } from "../../components/Header"
 import { Navbar } from "../../components/Navbar";
 import { StyledPage } from "./style";
 import { Button } from "../../styles/Button";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../../contexts/UserContext";
 import { TechCard } from "../../components/TechCard";
 import { NewTechModal } from "../../components/NewTechModal";
@@ -10,7 +10,7 @@ import { TechsContext } from "../../contexts/TechContext";
 
 export const MainPage = () => {
 
-    const { user } = useContext(UserContext);
+    const { user, navigate, verifyLoggedIn } = useContext(UserContext);
     const { techs } = useContext(TechsContext);
     const [isModalOpen, setModalOpenStatus] = useState(false);
     const [currentModal, setCurrentModal] = useState(<></>);
@@ -19,6 +19,15 @@ export const MainPage = () => {
         setCurrentModal(<NewTechModal setStatus={setModalOpenStatus} />);
         setModalOpenStatus(true)
     }
+
+    useEffect(() => {
+        let token = localStorage.getItem('@rgranatodutra/KenzieHub:authToken');
+        if (token) {
+            verifyLoggedIn(token);
+        } else {
+            navigate("/login")
+        }
+    }, []);
 
     return (
         <StyledPage>
