@@ -3,32 +3,22 @@ import { StyledNewTechModal } from './style';
 import { FormField } from '../FormField';
 import { Button } from '../../styles/Button';
 import { useForm } from 'react-hook-form';
-import { api } from '../../services/api';
 import { useContext } from 'react';
-import { UserContext } from '../../contexts/UserContext';
-import { toast } from 'react-toastify';
+import { TechsContext } from '../../contexts/TechContext';
 
 export const NewTechModal = ({ setStatus }) => {
 
-    const { updateUser } = useContext(UserContext);
+    const { addTech } = useContext(TechsContext);
 
     function onSubmit(data) {
-        api.post('/users/techs', data)
-            .then(() => {
-                updateUser();
-                toast.success('Tecnologia adicionada com sucesso!');
-                setStatus(false)
-            })
-            .catch(() => {
-                toast.error('Falha ao adicionar tecnologia.')
-            })
+        addTech(data);
+        setStatus(false);
     };
 
     const {
         register,
         handleSubmit,
     } = useForm();
-
 
     return (
         <ModalWrapper>

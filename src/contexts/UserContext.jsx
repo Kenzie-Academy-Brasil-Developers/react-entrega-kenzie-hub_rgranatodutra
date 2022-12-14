@@ -35,30 +35,27 @@ export const UserProvider = ({ children }) => {
             });
     };
 
-    function updateUser() {
-        api.get('profile')
-            .then((response) => {
-                setUser(response.data);
-                navigate('/app');
-            })
-            .catch(() => {
-                localStorage.removeItem('@rgranatodutra/KenzieHub:userID');
-                localStorage.removeItem('@rgranatodutra/KenzieHub:authToken');
-                navigate('/login');
-            });
-    }
-
     useEffect(() => {
         const token = JSON.parse(localStorage.getItem('@rgranatodutra/KenzieHub:authToken'));
         if (token) {
             api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-            updateUser();
-        }
+
+            api.get('profile')
+                .then((response) => {
+                    setUser(response.data);
+                    navigate('/app');
+                })
+                .catch(() => {
+                    localStorage.removeItem('@rgranatodutra/KenzieHub:userID');
+                    localStorage.removeItem('@rgranatodutra/KenzieHub:authToken');
+                    navigate('/login');
+                });
+        };
     }, []);
 
 
     return (
-        <UserContext.Provider value={{ login, registerAccount, user, updateUser }}>
+        <UserContext.Provider value={{ login, registerAccount, user }}>
             {children}
         </UserContext.Provider>
     );

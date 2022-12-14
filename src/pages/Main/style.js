@@ -41,6 +41,11 @@ export const StyledPage = styled.main`
             gap: 1rem;
         }
 
+        &>h2 {
+            ${typography.bigline}
+            color: var(--color-grey_1);
+        }
+
         @media (max-width: 780px) {
             padding: 2.25rem 0.875rem;
         }

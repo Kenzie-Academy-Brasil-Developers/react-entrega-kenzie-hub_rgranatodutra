@@ -70,7 +70,7 @@ export const Button = styled.button`
     
     // Theme settings
     ${props => themes[props.theme]}
-    `;
+`;
 
 export const ButtonCSS = styled.span`
     // Global button Settings
@@ -86,4 +86,4 @@ export const ButtonCSS = styled.span`
     
     // Theme settings
     ${props => themes[props.theme]}
-`
+`;
