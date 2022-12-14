@@ -6,16 +6,14 @@ export const TechsContext = createContext({});
 
 export const TechsProvider = ({ children }) => {
     const [techs, setTechs] = useState([]);
-    const token = JSON.parse(localStorage.getItem('@rgranatodutra/KenzieHub:authToken'));
 
     function addTech(newTech) {
-        setTechs([...techs, newTech]);
         api.post('users/techs', newTech)
-            .then(() => toast.success('Tecnologia adicionada com sucesso!'))
+            .then((resp) => {
+                setTechs([...techs, resp.data]);
+                toast.success('Tecnologia adicionada com sucesso!');
+            })
             .catch(() => {
-                let previous = [...techs].reverse()
-                previous.shift();
-                setTechs(previous);
                 toast.error('Falha ao adicionar tecnologia.');
             });
     };
@@ -27,32 +25,30 @@ export const TechsProvider = ({ children }) => {
             .then(() => toast.success('Tecnologia deletada com sucesso!'))
             .catch(() => {
                 setTechs(previous);
-                toast.success('Falha ao deletar tecnologia!');
+                toast.error('Falha ao deletar tecnologia!');
             });
     };
 
     function updateTech(techId, data) {
-        let previous = [...techs];
-        let updatedTechs = [...techs];
-        let index = updatedTechs.findIndex(tech => tech.id === techId);
-        updatedTechs[index].status = data.status;
-        setTechs(updatedTechs);
-
         api.put(`/users/techs/${techId}`, data)
-            .then(() => toast.success('Tecnologia atualizada com sucesso!'))
+            .then((resp) => {
+                let newTechs = techs.filter(tech => tech.id !== techId);
+                setTechs([...newTechs, resp.data]);
+                toast.success('Tecnologia atualizada com sucesso!')
+            })
             .catch(() => {
-                setTechs(previous);
                 toast.error('Falha ao atualizar tecnologia.');
             });
     };
 
     useEffect(() => {
+        const token = JSON.parse(localStorage.getItem('@rgranatodutra/KenzieHub:authToken'));
         api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
         if (token) {
             api.get('profile')
                 .then((resp) => setTechs(resp.data.techs));
         };
-    }, [token]);
+    }, []);
 
     return (
         <TechsContext.Provider value={{ techs, setTechs, addTech, removeTech, updateTech }}>
