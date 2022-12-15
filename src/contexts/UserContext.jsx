@@ -28,6 +28,8 @@ export const UserProvider = ({ children }) => {
                 localStorage.setItem('@rgranatodutra/KenzieHub:userID', JSON.stringify(resp.data.user.id));
                 localStorage.setItem('@rgranatodutra/KenzieHub:authToken', JSON.stringify(resp.data.token));
                 toast.success('Login bem sucedido');
+                setUser(resp.data.user);
+
             })
             .then(() => navigate('/app'))
             .catch(() => {
