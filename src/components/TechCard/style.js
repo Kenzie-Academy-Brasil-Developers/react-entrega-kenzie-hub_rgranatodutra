@@ -42,4 +42,31 @@ export const StyledCard = styled.li`
     &:hover {
         background-color: var(--color-grey_3);
     }
+
+    @media (max-width: 400px) {
+        gap: 0.5rem;
+
+        &>div>span{
+            font-size: 0.8em;
+            margin-right: 0.4rem;
+        }
+        &>div>button {
+            transform: scale(1);
+        }
+
+        &>div>button:nth-child(2) {
+            margin-right: 0;
+        }
+    }
+    @media (max-width: 320px) {
+        gap: 0.25rem;
+
+        &>div>span{
+            font-size: 0.65em;
+            margin-right: 0.2rem;
+        }
+        &>div>button {
+            transform: scale(0.8);
+        }
+    }
 `;

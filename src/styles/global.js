@@ -33,6 +33,29 @@ export const GlobalStyles = createGlobalStyle`s
         // Feedback Palette
         --color-sucess: #3FE864;
         --color-failed: #E83F5B;
+
+        // Font-sizes
+        --fs_title-1: 1.125rem;
+        --fs_title-2: 1rem;
+        --fs_title-3: 0.875rem;
+        --fs_headline: 0.75rem;
+        --fs_small: 0.625rem;
+
+        @media (max-width: 400px) {
+        --fs_title-1: 1rem;
+        --fs_title-2: 0.875rem;
+        --fs_title-3: 0.75rem;
+        --fs_headline: 0.625rem;
+        --fs_small: 0.5rem;
+        }
+
+        @media (max-width: 320px) {
+        --fs_title-1: 0.875rem;
+        --fs_title-2: 0.75rem;
+        --fs_title-3: 0.625rem;
+        --fs_headline: 0.5rem;
+        --fs_small: 0.375rem;
+        }
     }
 
     body {

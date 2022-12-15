@@ -6,19 +6,22 @@ import { useContext, useState } from "react";
 import { UserContext } from "../../contexts/UserContext";
 import { TechCard } from "../../components/TechCard";
 import { NewTechModal } from "../../components/NewTechModal";
+import { TechsContext } from "../../contexts/TechContext";
+import { Navigate } from "react-router-dom";
 
 export const MainPage = () => {
 
     const { user } = useContext(UserContext);
+    const { techs } = useContext(TechsContext);
     const [isModalOpen, setModalOpenStatus] = useState(false);
     const [currentModal, setCurrentModal] = useState(<></>);
 
     function openNewTechModal() {
         setCurrentModal(<NewTechModal setStatus={setModalOpenStatus} />);
-        setModalOpenStatus(true)
-    }
+        setModalOpenStatus(true);
+    };
 
-    return (
+    return user ? (
         <StyledPage>
             <Navbar />
             <Header
@@ -35,24 +38,30 @@ export const MainPage = () => {
                     <Button theme="grey2" size="icon" onClick={openNewTechModal}> + </Button>
                 </div>
                 {
-                    user.techs?.length > 0 &&
-                    <ul>
-                        {
-                            user.techs?.map(tech => (
-                                <TechCard
-                                    key={tech.id}
-                                    techId={tech.id}
-                                    name={tech.title}
-                                    level={tech.status}
-                                    setModal={setCurrentModal}
-                                    setStatus={setModalOpenStatus}
-                                />
-                            ))
-                        }
-                    </ul>
+                    techs.length > 0 ?
+                        (<ul>
+                            {
+                                techs.map(tech => (
+                                    <TechCard
+                                        key={tech.id}
+                                        techId={tech.id}
+                                        name={tech.title}
+                                        level={tech.status}
+                                        setModal={setCurrentModal}
+                                        setStatus={setModalOpenStatus}
+                                    />
+                                ))
+                            }
+                        </ul>)
+                        :
+                        (
+                            <>
+                                <h2> Você ainda não adicionou nenhuma tecnologia ao seu perfil. :( </h2>
+                            </>
+                        )
                 }
             </div>
             {isModalOpen && currentModal}
         </StyledPage>
-    );
+    ) : <Navigate to="/login" />
 };

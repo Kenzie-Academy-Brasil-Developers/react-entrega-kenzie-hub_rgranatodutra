@@ -3,31 +3,27 @@ import { StyledNewTechModal } from './style';
 import { FormField } from '../FormField';
 import { Button } from '../../styles/Button';
 import { useForm } from 'react-hook-form';
-import { api } from '../../services/api';
 import { useContext } from 'react';
-import { UserContext } from '../../contexts/UserContext';
-import { toast } from 'react-toastify';
+import { TechsContext } from '../../contexts/TechContext';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { formSchema } from './editTechSchema'
 
 export const EditTechModal = ({ setStatus, techId }) => {
 
-    const { updateUser } = useContext(UserContext);
+    const { updateTech } = useContext(TechsContext);
 
     function onSubmit(data) {
-        api.put(`/users/techs/${techId}`, data)
-            .then(() => {
-                updateUser();
-                toast.success('Tecnologia atualizada com sucesso!');
-                setStatus(false)
-            })
-            .catch(() => {
-                toast.error('Falha ao atualizar tecnologia.')
-            })
+        updateTech(techId, data);
+        setStatus(false);
     };
 
     const {
         register,
         handleSubmit,
-    } = useForm();
+        formState: { errors }
+    } = useForm({
+        resolver: yupResolver(formSchema)
+    });
 
 
     return (
@@ -58,6 +54,7 @@ export const EditTechModal = ({ setStatus, techId }) => {
                             ]
                         }
                         inputFunction={register('status')}
+                        errors={errors.status?.message && <span aria-label="erro">{errors.status.message}</span>}
                     />
                     <Button
                         theme="default"

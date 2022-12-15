@@ -25,7 +25,7 @@ export const Header = ({ user }) => {
                 setModule('Sexto Módulo ( Trilha de empregabilidade )');
                 break;
             default:
-                setModule('Módulo indefinido');
+                setModule(user.module);
         }
     }, [user]);
 

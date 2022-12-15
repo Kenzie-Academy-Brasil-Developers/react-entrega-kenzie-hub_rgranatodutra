@@ -8,7 +8,7 @@ export const UserContext = createContext({});
 export const UserProvider = ({ children }) => {
 
     const navigate = useNavigate();
-    const [user, setUser] = useState({});
+    const [user, setUser] = useState();
 
     function registerAccount(formCamps) {
         delete formCamps.cpassword;
@@ -28,37 +28,38 @@ export const UserProvider = ({ children }) => {
                 localStorage.setItem('@rgranatodutra/KenzieHub:userID', JSON.stringify(resp.data.user.id));
                 localStorage.setItem('@rgranatodutra/KenzieHub:authToken', JSON.stringify(resp.data.token));
                 toast.success('Login bem sucedido');
-                navigate('/app');
+                setUser(resp.data.user);
+
             })
+            .then(() => navigate('/app'))
             .catch(() => {
                 toast.error('Falha ao logar.');
             });
     };
 
-    function updateUser() {
-        api.get('profile')
-            .then((response) => {
-                setUser(response.data);
-                navigate('/app');
-            })
-            .catch(() => {
-                localStorage.removeItem('@rgranatodutra/KenzieHub:userID');
-                localStorage.removeItem('@rgranatodutra/KenzieHub:authToken');
-                navigate('/login');
-            });
-    }
-
     useEffect(() => {
         const token = JSON.parse(localStorage.getItem('@rgranatodutra/KenzieHub:authToken'));
+
         if (token) {
             api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-            updateUser();
-        }
+
+            api.get('profile')
+                .then((response) => {
+                    setUser(response.data);
+                    navigate('/app');
+                })
+                .catch(() => {
+                    localStorage.removeItem('@rgranatodutra/KenzieHub:userID');
+                    localStorage.removeItem('@rgranatodutra/KenzieHub:authToken');
+                    navigate('/login');
+                });
+        };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
 
     return (
-        <UserContext.Provider value={{ login, registerAccount, user, updateUser }}>
+        <UserContext.Provider value={{ login, registerAccount, user, navigate }}>
             {children}
         </UserContext.Provider>
     );

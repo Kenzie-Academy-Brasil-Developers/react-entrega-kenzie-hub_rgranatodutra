@@ -1,7 +1,7 @@
 import { StyledNavbar } from "./style";
 import logo from '../../logo.svg'
 import { Button } from "../../styles/Button";
-import { logout } from "../../scripts/logout";
+import { logout } from "../../services/logout";
 
 export const Navbar = () => {
     return (

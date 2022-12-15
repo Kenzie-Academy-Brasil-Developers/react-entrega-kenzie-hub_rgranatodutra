@@ -3,32 +3,27 @@ import { StyledNewTechModal } from './style';
 import { FormField } from '../FormField';
 import { Button } from '../../styles/Button';
 import { useForm } from 'react-hook-form';
-import { api } from '../../services/api';
 import { useContext } from 'react';
-import { UserContext } from '../../contexts/UserContext';
-import { toast } from 'react-toastify';
+import { TechsContext } from '../../contexts/TechContext';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { formSchema } from './newTechSchema';
 
 export const NewTechModal = ({ setStatus }) => {
 
-    const { updateUser } = useContext(UserContext);
+    const { addTech } = useContext(TechsContext);
 
     function onSubmit(data) {
-        api.post('/users/techs', data)
-            .then(() => {
-                updateUser();
-                toast.success('Tecnologia adicionada com sucesso!');
-                setStatus(false)
-            })
-            .catch(() => {
-                toast.error('Falha ao adicionar tecnologia.')
-            })
+        addTech(data);
+        setStatus(false);
     };
 
     const {
         register,
         handleSubmit,
-    } = useForm();
-
+        formState: { errors }
+    } = useForm({
+        resolver: yupResolver(formSchema)
+    });
 
     return (
         <ModalWrapper>
@@ -51,6 +46,7 @@ export const NewTechModal = ({ setStatus }) => {
                         label="Nome"
                         inputType="text"
                         inputFunction={register('title')}
+                        errors={errors.title?.message && <span aria-label="erro">{errors.title.message}</span>}
                     />
                     <FormField
                         key="register_tech-status"
@@ -66,6 +62,7 @@ export const NewTechModal = ({ setStatus }) => {
                             ]
                         }
                         inputFunction={register('status')}
+                        errors={errors.status?.message && <span aria-label="erro">{errors.status.message}</span>}
                     />
                     <Button
                         theme="default"
