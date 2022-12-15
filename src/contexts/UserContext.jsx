@@ -37,6 +37,13 @@ export const UserProvider = ({ children }) => {
             });
     };
 
+    function logout() {
+        localStorage.removeItem('@rgranatodutra/KenzieHub:userID');
+        localStorage.removeItem('@rgranatodutra/KenzieHub:authToken');
+        setUser();
+        navigate('/login');
+    };
+
     useEffect(() => {
         const token = JSON.parse(localStorage.getItem('@rgranatodutra/KenzieHub:authToken'));
 
@@ -59,7 +66,7 @@ export const UserProvider = ({ children }) => {
 
 
     return (
-        <UserContext.Provider value={{ login, registerAccount, user, navigate }}>
+        <UserContext.Provider value={{ login, registerAccount, user, navigate, logout }}>
             {children}
         </UserContext.Provider>
     );
