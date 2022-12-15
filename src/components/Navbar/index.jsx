@@ -1,9 +1,13 @@
 import { StyledNavbar } from "./style";
 import logo from '../../logo.svg'
 import { Button } from "../../styles/Button";
-import { logout } from "../../services/logout";
+import { useContext } from "react";
+import { UserContext } from "../../contexts/UserContext";
 
 export const Navbar = () => {
+
+    const { logout } = useContext(UserContext);
+
     return (
         <StyledNavbar>
             <div>
