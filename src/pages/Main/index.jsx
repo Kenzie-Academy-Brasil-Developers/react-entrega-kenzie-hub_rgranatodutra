@@ -2,34 +2,26 @@ import { Header } from "../../components/Header"
 import { Navbar } from "../../components/Navbar";
 import { StyledPage } from "./style";
 import { Button } from "../../styles/Button";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import { UserContext } from "../../contexts/UserContext";
 import { TechCard } from "../../components/TechCard";
 import { NewTechModal } from "../../components/NewTechModal";
 import { TechsContext } from "../../contexts/TechContext";
+import { Navigate } from "react-router-dom";
 
 export const MainPage = () => {
 
-    const { user, navigate, verifyLoggedIn } = useContext(UserContext);
+    const { user } = useContext(UserContext);
     const { techs } = useContext(TechsContext);
     const [isModalOpen, setModalOpenStatus] = useState(false);
     const [currentModal, setCurrentModal] = useState(<></>);
 
     function openNewTechModal() {
         setCurrentModal(<NewTechModal setStatus={setModalOpenStatus} />);
-        setModalOpenStatus(true)
-    }
+        setModalOpenStatus(true);
+    };
 
-    useEffect(() => {
-        let token = localStorage.getItem('@rgranatodutra/KenzieHub:authToken');
-        if (token) {
-            verifyLoggedIn(token);
-        } else {
-            navigate("/login")
-        }
-    }, []);
-
-    return (
+    return user ? (
         <StyledPage>
             <Navbar />
             <Header
@@ -71,5 +63,5 @@ export const MainPage = () => {
             </div>
             {isModalOpen && currentModal}
         </StyledPage>
-    );
+    ) : <Navigate to="/login" />
 };

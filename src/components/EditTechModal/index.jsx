@@ -5,6 +5,8 @@ import { Button } from '../../styles/Button';
 import { useForm } from 'react-hook-form';
 import { useContext } from 'react';
 import { TechsContext } from '../../contexts/TechContext';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { formSchema } from './editTechSchema'
 
 export const EditTechModal = ({ setStatus, techId }) => {
 
@@ -18,7 +20,10 @@ export const EditTechModal = ({ setStatus, techId }) => {
     const {
         register,
         handleSubmit,
-    } = useForm();
+        formState: { errors }
+    } = useForm({
+        resolver: yupResolver(formSchema)
+    });
 
 
     return (
@@ -49,6 +54,7 @@ export const EditTechModal = ({ setStatus, techId }) => {
                             ]
                         }
                         inputFunction={register('status')}
+                        errors={errors.status?.message && <span aria-label="erro">{errors.status.message}</span>}
                     />
                     <Button
                         theme="default"
