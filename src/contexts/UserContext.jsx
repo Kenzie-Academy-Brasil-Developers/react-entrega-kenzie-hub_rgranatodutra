@@ -8,7 +8,7 @@ export const UserContext = createContext({});
 export const UserProvider = ({ children }) => {
 
     const navigate = useNavigate();
-    const [user, setUser] = useState({});
+    const [user, setUser] = useState();
 
     function registerAccount(formCamps) {
         delete formCamps.cpassword;
